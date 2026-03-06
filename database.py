@@ -1,6 +1,3 @@
-"""
-Módulo simples de banco de dados de usuários em arquivo JSON
-"""
 import json
 import os
 from typing import Optional
@@ -62,5 +59,22 @@ def buscar_usuario(email: str) -> Optional[str]:
     for usuario in usuarios:
         if usuario.get("email", "").lower() == email:
             return usuario.get("hash_senha")
+
+    return None
+
+def verificar_email(email: str) -> Optional[str]:
+    """
+    Retorna o hash da senha do usuário com o email informado,
+    ou None se não encontrado ou email inválido.
+    """
+    if not email or not email.strip():
+        return None
+
+    email = email.strip().lower()
+    usuarios = _carregar_usuarios()
+
+    for usuario in usuarios:
+        if usuario.get("email", "").lower() == email:
+            return usuario.get("email")
 
     return None
